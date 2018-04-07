@@ -1,0 +1,37 @@
+function piest = Q2EstimatePi(nmax,tol,nout)
+% Initial random seed
+rng(1,'twister');
+N_in=0;
+%the initidute number of point in the cycle
+N_all=0;
+%the number of the point we have calculated
+while N_all<nmax
+    N_all=N_all+1;
+    x=rand();
+    y=rand();
+    % get the random point
+    if ((x-0.5)^2+(y-0.5)^2)<=0.25
+        %decided the point in the circle or out of circle
+        N_in=N_in+1;
+        %the number of pont in the cycle plus 1
+    end
+    if mod(N_all,nout) == 0
+        %if p is the mulriple of n,we need print the estimate of pi on screen
+        fprintf('the number of samples used is %d\n', N_all)
+        piest=4*N_in/N_all;
+        %the value of the estimate of pi
+        fprintf('the estimate is %f\n',piest)
+        fprintf('the error of this estimateabs is %f\n\n',piest-pi )
+        %the error of this estimateabs
+    end
+    piest=4*N_in/N_all;
+    if abs(piest-pi)<=tol
+        fprintf('when we get the required tolerance, the number of samples used is %d\n', N_all)
+        piest=4*N_in/N_all;
+        %the value of the estimate of pi
+        fprintf('the estimate is %f\n',piest)
+        fprintf('the error of this estimateabs is %f\n\n',piest-pi )
+        %the error of this estimateabs
+        break
+    end
+end
