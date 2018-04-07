@@ -1,0 +1,108 @@
+COURSEWORK 4B
+%% Question 1
+type EulersMeth.m
+
+%% Question 2
+
+% input the value of y0, the function f, a, b, step-size h
+y0 = 0.5;
+f = @(t,y) y-t^2+1;
+a = 0;
+b = 2;
+h = 0.25;
+% get the unmber of mesh points
+N = round( (b-a)/h );
+% use EulersMeth to get all mesh points t and all  approximations at those points w
+[t_vec,w_vec] = EulersMeth(f,a,y0,h,N);
+% input the functin to get the exact value of each mesh point and compare
+% the exact values with approximations.
+f = @(t)(t+1)^2-0.5*exp(t);
+y_vec = zeros(N+1,1);
+E_vec = zeros(N+1,1);
+for i = 1:N+1
+    y_vec(i) = f(t_vec(i));
+    E_vec(i) = abs(y_vec(i)-w_vec(i));
+end
+% table the mesh points t, approximations at those points w,  the exact
+% value of each mesh point y and thecomparison of y and w.
+table(t_vec,w_vec,y_vec,E_vec)
+
+%% Queation 3
+
+% input the value of y0, the function f, a and b
+y0 = 0.5;
+f = @(t,y) y-t^2+1;
+a = 0;
+b = 2;
+% make two empty matrixs to put the value of h and absolute value of error.
+h_vec = zeros(7,1);
+E_vec = zeros(7,1);
+%get the different step-size h
+for i = 1:7
+    h = 1/(2^(i+1));
+    h_vec(i) = h;
+    % get the unmber of mesh points
+    N = round( (b-a)/h );
+    % use EulersMeth to get all mesh points t and all  approximations at those points w
+    [t_vec,w_vec] = EulersMeth(f,a,y0,h,N);
+    % input the functin to get the exact value of 2 and compare the exact values with approximations.
+    y = (2+1)^2-0.5*exp(2);
+    E_vec(i) = abs(y-w_vec(N+1));
+end
+% table and plot the different step-size h and thecomparison of exact value of 2 and the approximations with dofferet h of 2.
+table(h_vec,E_vec)
+loglog(h_vec,E_vec)
+
+%% Question 4
+type RuKuMeth.m
+
+%% Question 5
+
+% input the value of y0, the function f, a, b, step-size h
+y0 = 0.5;
+f = @(t,y) y-t^2+1;
+a = 0;
+b = 2;
+h = 0.25;
+% get the unmber of mesh points
+N = round( (b-a)/h );
+% use RuKuMeth to get all mesh points t and all  approximations at those points w
+[t_vec,w_vec] = RuKuMeth(f,a,y0,h,N);
+% input the functin to get the exact value of each mesh point and compare
+% the exact values with approximations.
+f = @(t)(t+1)^2-0.5*exp(t);
+y_vec = zeros(N+1,1);
+E_vec = zeros(N+1,1);
+for i = 1:N+1
+    y_vec(i) = f(t_vec(i));
+    E_vec(i) = abs(y_vec(i)-w_vec(i));
+end
+% table the mesh points t, approximations at those points w,  the exact
+% value of each mesh point y and thecomparison of y and w.
+table(t_vec,w_vec,y_vec,E_vec)
+
+%% Question 6
+
+% input the value of y0, the function f, a and b
+y0 = 0.5;
+f = @(t,y) y-t^2+1;
+a = 0;
+b = 2;
+% make two empty matrixs to put the value of h and absolute value of error.
+h_vec = zeros(7,1);
+E_vec = zeros(7,1);
+%get the different step-size h
+for i = 1:7
+    h = 1/(2^(i+1));
+    h_vec(i) = h;
+    % get the unmber of mesh points
+    N = round( (b-a)/h );
+    % use RuKuMeth to get all mesh points t and all  approximations at those points w
+    [t_vec,w_vec] = RuKuMeth(f,a,y0,h,N);
+    % input the functin to get the exact value of 2 and compare the exact values with approximations.
+    y = (2+1)^2-0.5*exp(2);
+    E_vec(i) = abs(y-w_vec(N+1));
+end
+% table and plot the different step-size h and thecomparison of exact value of 2 and the approximations with dofferet h of 2.
+table(h_vec,E_vec)
+loglog(h_vec,E_vec)
