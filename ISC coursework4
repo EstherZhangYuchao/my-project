@@ -1,0 +1,307 @@
+%% coursework4
+%% question 3
+
+% make a empty matric to put result
+A = zeros(10,3);
+
+% input the value of a
+a = 0;
+
+% input the value of b
+b = 256;
+
+% input the value of T
+T = 256;
+
+% input the value of f0
+f0 = 35;
+
+% input the function
+f = @(t) f0*(1-exp((-t./(2*T))+(t./T).^2-(2*t./T).^3));
+
+% get the value of m,
+% get the value of approximations and the error of each m
+for i = 1:10
+    m = 2^(i-1);
+    I = CMRule(f,a,b,m);
+    v_t = 5086.3792564930;
+    A(i,1) = m;
+    A(i,2) = I;
+    A(i,3) = abs(I-v_t);
+end
+
+% output the table with three columns containing m, the approximations vm(T), and the errors |v(T)-vm(T)|
+table(A)
+
+%% question 4
+
+% make a empty matric to put result
+A = zeros(10,3);
+
+% input the value of a
+a = 0;
+
+% input the value of b
+b = 256;
+
+% input the value of T
+T = 256;
+
+% input the value of f0
+f0 = 35;
+
+% input the function
+f = @(t) f0*(1-exp((-t./(2*T))+(t./T).^2-(2*t./T).^3));
+
+% get the value of m,
+% get the error of each m
+for i = 1:10
+    m = 2^(i-1);
+    I = CMRule(f,a,b,m);
+    v_t = 5086.3792564930;
+    A(1,i) = m;
+    A(2,i) = abs(I-v_t);
+end
+
+% plot the image of errors versus h(b/2*m)
+loglog(256./(2.*A(1,:)),A(2,:))
+xlabel('log h')
+ylabel('log error')
+title('log error versus log h')
+
+% explain
+% Because  when the m become large, h become smaller, the errorbound of CMR =
+% ((b-a)/6)*h^2*Max_M only depends on the h, log(errorbound) only change by
+% 2log(h), so the error become smaller with h become smaller.
+% so, it is an observed rate of cpnverge.
+
+%% question 5
+
+type CSRule.m
+
+%% question 6
+
+% make a empty matric to put result
+A = zeros(10,3);
+
+% input the value of a
+a = 0;
+
+% input the value of b
+b = 256;
+
+% input the value of T
+T = 256;
+
+% input the value of f0
+f0 = 35;
+
+% input the function
+f = @(t) f0*(1-exp((-t./(2*T))+(t./T).^2-(2*t./T).^3));
+
+% get the value of m,
+% get the value of approximations and the error of each m
+for i = 1:10
+    m = 2^(i-1);
+    I = CSRule(f,a,b,m);
+    v_t = 5086.3792564930;
+    A(i,1) = m;
+    A(i,2) = I;
+    A(i,3) = abs(I-v_t);
+end
+
+% output the table with three columns containing m, the approximations vm(T), and the errors |v(T)?vm(T)|
+table(A)
+
+%% question 7
+
+% make a empty matric to put result
+A = zeros(10,3);
+
+% input the value of a
+a = 0;
+
+% input the value of b
+b = 256;
+
+% input the value of T
+T = 256;
+
+% input the value of f0
+f0 = 35;
+
+% input the function
+f = @(t) f0*(1-exp((-t./(2*T))+(t./T).^2-(2*t./T).^3));
+
+% get the value of m,
+% get the error of each m
+for i = 1:10
+    m = 2^(i-1);
+    I = CSRule(f,a,b,m);
+    v_t = 5086.3792564930;
+    A(1,i) = m;
+    A(2,i) = abs(I-v_t);
+end
+
+% plot the image of errors versus h(b/2*m)
+loglog(256./(2.*A(1,:)),A(2,:))
+xlabel('log h')
+ylabel('log error')
+title('log error versus log h')
+% explain
+% Because  when the m become large, h become smaller, the errorbound of CSRerror = ((b-a)/180)*h^4*Max_S only depends on the h, log(errorbound) only change by
+% 2log(h), so the error become smaller with h become smaller.
+% so, it is an observed rate of cpnverge.
+
+%% question 8
+
+% use the formula to get the errorbound
+%  1.CMRerrorbound = ((b-a)/6)*h^2*Max(abs(f(x)));
+%  h = (b-a)/2*m
+%  Max(abs(f(x))) is the largest value of function of two times derivation in the range [a,b]
+%  2.CSRerrorbound = ((b-a)/180)*h^4*Max(abs(f(x)));
+%  h = (b-a)/2*m
+%  Max(abs(f(x))) is the largest value of function of four times derivation in the range [a,b]
+
+% get the bound on the above error with CMR
+% input the value of a
+a = 0;
+
+% input the value of b
+b = 256;
+
+% Define width h
+h_1 = (b-a)/(2*17);
+h_2 = (b-a)/16;
+
+% input the value of T
+T = 256;
+
+% input the value of f0
+f0 = 35;
+
+syms t
+% input the function
+f = f0*(1-exp((-t./(2*T))+(t./T).^2-(2*t./T).^3));
+
+% get the f''(t)
+f_2 = diff(f,2);
+
+% get the f''''(t)
+f_4 = diff(f,4);
+
+% the range of t
+t = 0:0.001:b;
+
+% get the max value of y when t between a and b
+Max_M = max(abs(eval(f_2)));
+
+% get the max value of z when t between a and b
+Max_S = max(abs(eval(f_4)));
+
+% get the bound on the above error with CMR
+CMRerror = ((b-a)/6)*h_1^2*Max_M;
+fprintf( 'the bound on the above error with CMR is %d\n',CMRerror)
+
+% get the bound on the above error with CSR
+CSRerror = ((b-a)/180)*h_2^4*Max_S;
+fprintf( 'the bound on the above error with CSR is %d\n',CSRerror)
+
+%% question 9
+
+type VelCSRule.m
+
+%% question 10
+
+% make a vect of vt, m and t
+VT_vect = zeros(1,257);
+m_vect = zeros(1,257);
+t_vec = 0:1:256;
+
+% input the value of T
+T = 256;
+
+% input the value of f0
+f0 = 35;
+
+% input the function
+f = @(x) f0*(1-exp((-x./(2*T))+(x./T).^2-(2*x./T).^3));
+
+syms t_vect
+% input the function
+f_0 = f0*(1-exp((-t_vect./(2*T))+(t_vect./T).^2-(2*t_vect./T).^3));
+
+% get the g''''(t)
+f_4 = diff(f_0,4);
+
+for i = 1:257
+    
+    % input the given tolerance and t
+    TOL = 0.1;
+    t = t_vec(i);
+    
+    % input the value of a
+    a = 0;
+    
+    % input the value of b
+    b =t;
+    
+    % the range of t
+    t_vect= 0:0.0001:b;
+    
+    % get the max value of z when t between a and b
+    Max_S = max(abs(eval(f_4)));
+    
+    % the start value of m and error
+    m = 0;
+    CSRerror = 100000;
+    
+    while CSRerror >= TOL
+        %try the next value of m
+        m = m+1;
+        
+        % Define width h
+        h = (b-a)/(2*m);
+        
+        % get the bound on the above error with CSR
+        CSRerror = ((b-a)/180)*h^4*Max_S;
+    end
+    % get the value of approximationsv(t)
+    vt = CSRule(f,a,b,m);
+    VT_vect(1,i) = vt;
+    m_vect(1,i) = m;
+end
+
+% plot v(t) versus t
+plot(t_vec,VT_vect)
+xlabel('t')
+ylabel('v(t)')
+title('v(t) versus t')
+
+figure
+
+% plot m versus t
+plot(t_vec,m_vect)
+xlabel('t')
+ylabel('m')
+title('m versus t')
+%% question 11
+
+% I run the function optimalTOL to let the difference of two total distance less then the eps, then get the optimal choice for Tolerance
+% which mean even we put a more small Tol in to the function disCSRule, the
+% accuracy of result of total distance whill not change and the result is very closed and the difference less than 10^(-13).
+
+optimalTOL(40)
+disCSRule(40,TOL)
+disCSRule(40,TOL*1000)
+disCSRule(40,TOL*100)
+disCSRule(40,TOL*10)
+disCSRule(40,TOL/10)
+disCSRule(40,TOL/100)
+disCSRule(40,TOL/1000)
+%% question 12
+type CMRule.m
+
+type disCSRule.m
+
+type optimalTOL.m
