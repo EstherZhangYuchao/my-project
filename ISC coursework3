@@ -1,0 +1,176 @@
+%% coursework3
+%% question 1
+
+%  f(x)=sin(pi*x)  x0=1/6  x1=1/2
+%  P(x)=f(x0)*(x1-x)/(x1-x0) + f(x1)*(x-x0)/(x1-x0)=1/2*(3/2-3*x)+3*x-1/2
+%      =1/4+3*x/2
+%  P(1/4)=5/8  
+%  f(1/4)=sqrt(2)/2  
+%  e=f-P=sqrt(2)/2-5/8=0.082
+%% question 2
+
+%  L0(x) = [(x-x1)/(x0-x1)]*[(x-x2)/(x0-x2)
+%        = [(x-1/2)/(1/6-1/2)]*[(x-2/3)/(1/6-2/3)
+%        = 6*x^2-7*x+2
+%  L1(x) = [(x-x0)/(x1-x0)]*[(x-x2)/(x1-x2)
+%        = [(x-1/6)/(1/2-1/6)]*[(x-2/3)/(1/2-2/3)
+%        = -18*x^2+15*x-2
+%  L2(x) = [(x-x0)/(x2-x0)]*[(x-x1)/(x2-x1)
+%        = [(x-1/6)/(2/3-1/6)]*[(x-1/2)/(2/3-1/2)
+%        = 12*x^2-8*x+1
+%  plot these 3 Lagrange polynomials in one figure
+%  range of x
+x = -1:0.001:1;
+%  function of L1(x)
+L0 = 6.*x.^2-7.*x+2;
+%  function of L2(x)
+L1 = -18.*x.^2+15.*x-2;
+%  function of L3(x)
+L2 = 12.*x.^2-8*x+1;
+%  plot in one figure
+plot(x,L0,':',x,L1,'-',x,L2,'--')
+legend('L0(x)','L1锛�x)','L2(x)');
+%% question 3
+
+%  p = f(x0)*L0(x)+ f(x1)*L1(x) + f(x2)*L2(x)
+%    = sin(pi/6)*(6*x^2-7*x+2) + sin(pi/2)*(-18*x^2+15*x-2) + sin(2*pi/3)*(12*x^2-8*x+1)
+%    = (6*sqrt(3)-15)*x^2+(-4*sqrt(3)+23/2)*x+(-1+sqrt(3)/2)
+%  plot f and this interpolant in one figure
+%  range of x
+x = -1:0.001:1;
+%  function of polynomial interpolant
+p = (6*sqrt(3)-15).*x.^2+(23/2-4*sqrt(3)).*x+(sqrt(3)/2-1);
+%  function of f(x)
+f =sin(x.*pi);
+%  plot in one figure
+plot(x,p,'-',x,f,'--')
+legend('p','f');
+%% question 4
+ 
+type LagrP.m
+%% question 5
+
+%  use M-file LagrP 
+%  plot the L0(X),L1(X),L2(X),L3(x),L4(x) in one figure, when x in[-1,1] and 161 uniformly-distributed points
+%  set the line style
+s = {':','.','-.','--','-'};
+for i =0:4
+x = -1:2/160:1;
+y = LagrP(4,i,x);
+plot(x,y,strcat(s{i+1}));
+hold on
+end
+hold off
+legend('L0(X)','L1(X)','L2(X)','L3(x)','L4(x)');
+%% question 6
+ 
+type Interpolant.m
+%% question 7(1)
+
+%  the range of x
+x = -1:1/160:1; 
+%  plot the figure of f 
+f = sin(14.*pi.*(1-2.*x)/17); 
+plot(x,f,'.') 
+hold on 
+%  the function of f 
+f =@(x) sin(14.*pi.*(1-2.*x)/17); 
+%  plot the figure of P2(x) 
+n= 2; 
+y = Interpolant(n,f,x); 
+plot(x,y,':') 
+hold on 
+%  plot the figure of P3(x) 
+n = 3; 
+y = Interpolant(n,f,x); 
+plot(x,y,'-.') 
+hold on 
+%  plot the figure of P4(x) 
+n = 4; 
+y = Interpolant(n,f,x); 
+plot(x,y,'--') 
+hold on 
+%  plot the figure of P8(x)
+n = 8; 
+y = Interpolant(n,f,x); 
+plot(x,y,'-') 
+hold off 
+legend('f','P2(x)','P3(x)','P4(x)','P8(x)');
+%% question 7(2)
+
+%  from the plot, we can find with the n increase the image is more and more similar with the image f, when n = 8, these two tmages are almost overlap. So, Pn converges to f as n tends to infinite, in this case.
+%% question 8(1)
+
+%  use M-file Interpolant
+%  plot the f(x)= (1+27.*(x.^2)).^(-1) for x in [-1,1] and the different interpolants Pn(x) for n=2,3,4,8 in one figure
+%  the range of x
+x = -1:1/160:1;
+%  plot the figure of f
+f = (1+27.*(x.^2)).^(-1);
+plot(x,f,'.')
+hold on
+%  the function of f
+f =@(x) (1+27.*(x.^2)).^(-1);
+%  plot the figure of P2(x)
+n = 2;
+y = Interpolant(n,f,x);
+plot(x,y,':')
+hold on
+%  plot the figure of P3(x)
+n = 3;
+y = Interpolant(n,f,x);
+plot(x,y,'-.')
+hold on
+%  plot the figure of P4(x)
+n = 4;
+y = Interpolant(n,f,x);
+plot(x,y,'--')
+hold on
+%  plot the figure of P8(x)
+n = 8;
+y = Interpolant(n,f,x);
+plot(x,y,'-')
+hold off
+legend('f','P2(x)','P3(x)','P4(x)','P8(x)');
+%% question 8(2)
+
+%  from the plot, we can find with the n increase the image is more and more different from the image f. Especially at two sides, the distance between f and p become larger and large with n increase. So, Pn not converges to f as n tends to infinite, in this case.
+%% question 9(1)
+
+%  use M-file Interpolant1
+%  plot the f(x)= (1+27.*(x.^2)).^(-1) when x in [-1:1] and the different interpolants Pn(x) for n=2,3,4,8 in one figure
+%  the range of x
+x = -1:1/160:1; 
+%  plot the figure of f 
+f = (1+27.*(x.^2)).^(-1); 
+plot(x,f,'.') 
+hold on 
+%  the function of f 
+f =@(x) (1+27.*(x.^2)).^(-1); 
+% plot the figure of P2(x) 
+n = 2; 
+y = Interpolant1(n,f,x); 
+plot(x,y,':') 
+hold on 
+%  plot the figure of P3(x) 
+n= 3; 
+y = Interpolant1(n,f,x); 
+plot(x,y,'-.') 
+hold on 
+%  plot the figure of P4(x) 
+n = 4;
+y = Interpolant1(n,f,x); 
+plot(x,y,'--') 
+hold on 
+%  plot the figure of P8(x) 
+n = 8; 
+y = Interpolant1(n,f,x); 
+plot(x,y,'-') 
+hold off 
+legend('f','P2(x)','P3(x)','P4(x)','P8(x)');
+%% question 9(2)
+
+%  from the plot, we can find with the n increase the image is more and more different from the image f. Especially at two sides, the distance between f and p become larger and large with n increase. So, Pn not converges to f as n tends to infinite, in this case.
+%% question 10
+ 
+type Interpolant1.m
