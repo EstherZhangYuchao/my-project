@@ -1,0 +1,7 @@
+%% coursework1
+%% question1
+type Q1EstimatePi.m
+%% question2
+type Q2EstimatePi.m
+%% question3
+Q2EstimatePi(10000,10^-3,100)
