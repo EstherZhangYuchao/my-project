@@ -1,0 +1,23 @@
+input: nmax
+%the number of point we need calculate
+output: piest
+%the value of estimating pi
+Begin
+N_in=0;
+%the initidute number of point in the cycle
+N_all=0;
+%the number of the point we have calculated
+while N_all<nmax
+    N_all=N_all+1;
+    x=rand();
+    y=rand();
+    % get the random point
+    if ((x-0.5)^2+(y-0.5)^2)<=0.25
+        %decided the point in the circle or out of circle
+        N_in=N_in+1;
+        %the number of pont in the cycle plus 1
+    end
+end
+ruturn piest=4*N_in/nmax
+%the value of estimating pi
+End
