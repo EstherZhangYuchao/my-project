@@ -1,0 +1,45 @@
+function m = stripsCSRule(t,TOL)
+
+% this function is used to get the strips we used for given t and
+% tolerance.
+
+% input the value of a
+a = 0;
+
+% input the value of b
+b =t;
+
+% input the value of f0
+f0 = 35;
+
+% input the value of T
+T = 256;
+
+syms t_vect
+% input the function
+f = f0*(1-exp((-t_vect./(2*T))+(t_vect./T).^2-(2*t_vect./T).^3));
+
+% get the g''''(t)
+f_4 = diff(f,4);
+
+% the range of t
+t_vect= 0:0.0001:b;
+
+% get the max value of z when t between a and b
+Max_S = max(abs(eval(f_4)));
+
+% the start value of m and error
+m = 0;
+CSRerror = 10000;
+
+while CSRerror >= TOL
+    %try the next value of m
+    m = m+1;
+    
+    % Define width h
+    h = (b-a)/(2*m);
+    
+    % get the bound on the above error with CSR
+    CSRerror = ((b-a)/180)*h^4*Max_S;
+end
+end
