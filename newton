@@ -1,0 +1,71 @@
+function [x,res ,xvec , resvec ] = newton (f,df ,x0 , maxiter ,tol)
+if maxiter < 1
+    error('maxiter must be greater than 0')
+    %check if users provide inadmissible values of maxiter
+end
+if tol < eps
+    error('tol must be greater than or equal to eps')
+    %check if users provide inadmissible values of tol
+end
+n = 1;
+%the number of x
+x(n) = x0;
+%An initial guess x0.
+res(n) = abs(f(x(n)));
+%the residual evaluated at this approximation
+x(n+1) = x(n)-f(x(n))/df(x(n));
+%the approximation at first iteration
+k = 1;
+%the number of iterations
+b = abs(x(n+1)- x(n));
+%the tolerance at this approximation
+fprintf('k       x(k)            |f(x(k))|       |x(k+1)-x(k)|\n');
+%output the tital of
+%k is the time of iteration
+%x(k) is the approximation at this iteration
+% |f(x(k))| is the tesidual evaluated at this approximation
+% |x(k+1)-x(k)| is the tolerance at this approximation
+
+while k < maxiter && b >= tol
+    %check if get the maximum number of iterations allowed
+    %check if get the required tolerance
+    n = n+1;
+    %the number of x
+    res(n) = abs(f(x(n)));
+    %the residual evaluated at this approximation
+    x(n+1) = x(n)-f(x(n))/df(x(n));
+    %the approximation at next iteration
+    k = k+1;
+    %the number of iterations
+    b = abs(x(n+1)- x(n));
+    %the tolerance at this approximation
+    fprintf('%g %15.15f %15.15f %15.15f\n\n',k-1,x(n),res(n),b);
+    %output k is the time of iteration at this approximation
+    %output x(n) is the approximation at this iteration
+    %output res(n) is the tesidual evaluated at this approximation
+    %output b is the tolerance at this approximation
+end
+
+res(n+1) = abs(f(x(n+1)));
+%the residual evaluated at final approximation
+xvec = x;
+%get the vextor of x
+resvec = res;
+%get the vector of res
+x = x(n+1);
+%get the final approximation
+res = res(n+1);
+%get the final residual evaluated at final approximation
+fprintf('%g %15.15f %15.15f we not get x(%g)\n\n',k,x,res,k+1);
+    %output k is the time of iteration
+    %output x is the approximation at final iteration
+    %output res is the tesiduald evaluated at final approximation
+    %output the reason why we do not have this value
+
+if b <= tol
+    fprintf('Yes, convergence has been achieved with this initial guess and iteration times\n\n')
+else
+    fprintf('No, convergence has not been achieved with this initial guess and iteration times\n\n')
+end
+%print an output message stating whether convergence has been achieved or not.
+end
