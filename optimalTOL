@@ -1,0 +1,30 @@
+function TOL= optimalTOL(m)
+
+% check if  m is an integer greater or equal than 1
+if mod(m,1) > 0
+    error('m need an integer')
+elseif m <1
+    error('m need greater or equal than 1')
+end
+
+% give a value of e let it into circle
+e = 1;
+
+while e>0
+    
+    % get  s(t) of different tolerance and compare them
+    st_1 = disCSRule(m,e);
+    st_2 = disCSRule(m,e/10);
+    if abs(st_1-st_2) < eps
+        break
+    end
+    
+    % make the tolerence more small
+    e = e/10;
+end
+
+% get the final tolerence
+TOL= e/10;
+
+end
+
