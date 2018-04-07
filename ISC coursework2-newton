@@ -1,0 +1,65 @@
+%% coursework2-newton
+%% question 1
+%see M-file newton
+%% question 2
+%use my newton to get the result of 10^(1/10)
+%Check my approximation by using Matlab's in-built function nthroot
+[x,res ,xvec , resvec ] = newton (@(x)x.^10-10,@(x)10*x.^9 ,1 , 100 ,eps)
+%get the answer by using myself newton function
+a = nthroot(10,10);
+fprintf('the answer by using matlab in-building function is %15.15f\n',a);
+%get the answer by using matlab in-building function nthroot
+if a == x
+    fprintf('my answer is the same as the matlab\n');
+else
+    fprintf('my answer is not the same as the matlab\n');
+end
+%compare my answer with matlab's answer
+%% question 3a
+%Show that newton exits with an error if users provide inadmissible values of maxiter
+try
+    [x,res ,xvec , resvec ] = newton (@(x)x.^10-10,@(x)10*x.^9 ,1 , 0 ,eps)
+catch ME
+    disp(ME.message)
+end
+%% question 3b
+%Show that newton exits with an error if users provide inadmissible values of tol
+try
+    [x,res ,xvec , resvec ] = newton (@(x)x.^10-10,@(x)10*x.^9 ,1 , 100 ,0)
+catch ME
+    disp(ME.message)
+end
+%% question 4a
+% see the attach paper
+
+%% question 4b
+%provide numerical evidence that Newton’s method applied to f converges quadratically to x*
+[x,res ,xvec , resvec ] = newton (@(x)cosh(x)+cos(x)-3,@(x)sinh(x)-sin(x),pi , 100 ,eps)
+
+a = cosh(x)-cos(x);
+%get the get the value of f''(x*)
+fprintf('f''''(x*)=%f\n',a);
+if a ~= 0
+    fprintf('the value not equal 0, Newton’s method applied to f converges quadratically to x*\n');
+else
+    fprintf('the value  equal 0, Newton’s method applied to f not converges quadratically to x*\n');
+end
+%if the value not equal 0, then the convergence is precisely quadratic
+%% question 4c
+%stating whether convergence has been achieved or not.
+%Plot the residuals {|f(xk)|} as a function of k for γ = 2 and γ = 3
+[x,res ,xvec , resvec ] = newton (@(x)cosh(x)+cos(x)-3,@(x)sinh(x)-sin(x),pi/2 ,20 ,eps)
+hold on
+% make two line in same graph
+set(gca,'Yscale','log');
+% using a logarithmic scale for the y axis.
+k = [0:length(resvec)-1];
+semilogy(k,resvec,'r');
+% get the graph for γ = 3
+
+[x,res ,xvec , resvec ] = newton (@(x)cosh(x)+cos(x)-2,@(x)sinh(x)-sin(x),pi/2 ,20 ,eps)
+k = [0:length(resvec)-1];
+semilogy(k,resvec,'b');
+% get the graph for γ = 2
+hold off
+fprintf('In the range of my observations, the line of γ = 3 and γ = 2 are both decreasing.\nso, I predict their convergence, though I am not sure for line of γ = 2.\nAnd the line of γ = 2 like a straight line, so the rate of converge is slow then the line of γ = 3') 
