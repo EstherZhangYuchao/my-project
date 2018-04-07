@@ -1,0 +1,50 @@
+function vt = VelCSRule1(t,TOL)
+
+% input the value of a
+a = 0;
+
+% input the value of b
+b = t;
+
+% input the value of f0
+f0 = 35;
+
+% the range of t
+tvec= 0:0.1:b;
+
+% input the function
+f_0 = f0*(1-exp((-tvec./(2*256))+(tvec./256).^2-(2*tvec./256).^3));
+
+% get the g''''(t)
+f_1 = diff(f_0)/0.1;
+f_2 = diff(f_1)/0.1;
+f_3 = diff(f_2)/0.1;
+f_4 = diff(f_3)/0.1;
+
+% the range of t
+tvec= 0:0.001:b;
+
+% get the max value of z when t between a and b
+Max_S = max(abs((f_4)));
+
+
+% the start value of m and error
+m = 0;
+CSRerror = 100000;
+
+while CSRerror >= TOL
+    %try the next value of m
+    m = m+1;
+    
+    % Define width h
+    h = (b-a)/(2*m);
+    
+    % get the bound on the above error with CSR
+    CSRerror = (b/180)*h^4*Max_S;
+end
+
+% input the function f
+f = @(x)f0*(1-exp((-x./(2*256))+(x./256).^2-(2*x./256).^3));
+
+% get the value of approximationsv(t)
+vt = CSRule(f,a,b,m);
