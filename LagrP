@@ -1,0 +1,22 @@
+function y = LagrP(n,k,x)
+%check if users provide inadmissible values of n
+if n < 1
+    error('n must be greater than 0')
+end
+%check if users provide inadmissible values of k
+if k < 0 && k >n
+    error('k must be greater than or equal to 0 and less than n')
+end
+%Construct the vector of interpolation points (x0,x1,...,xn)
+Xvec = -1:2/n:1;
+% Initialize the product
+product = 1;
+for j=1:n+1
+    %except the equation when j=k+1
+    if j~=k+1
+        product = product.*((x-Xvec(j))./(Xvec(k+1)-Xvec(j)));
+    end
+end
+% Set the output
+y = product;
+end
