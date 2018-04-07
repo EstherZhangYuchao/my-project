@@ -1,0 +1,17 @@
+function y = Interpolant(n,f,x)
+%check if users provide inadmissible values of n
+if n < 1
+    error('n must be greater than 0')
+end
+%Construct the vector of interpolation points (x0,x1,...,xn)
+Xvec = -1:2/n:1;
+% Initialize the Pn(x)
+p = 0;
+% get the function of p(x)
+for k = 0:n
+    y = LagrP(n,k,x);
+    p = p+f(Xvec(k+1)).*y;
+end
+%Set the output
+y = p;
+end
